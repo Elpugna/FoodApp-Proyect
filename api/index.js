@@ -17,12 +17,29 @@
 //     =====`-.____`.___ \_____/___.-`___.-'=====
 //                       `=---='
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+require('dotenv').config();
 const server = require('./src/app.js');
-const { conn } = require('./src/db.js');
-
+const { Recipe, Diet, conn } = require('./src/db.js');
+const port = process.env.PORT || 3001;
 // Syncing all the models at once.
-conn.sync({ force: true }).then(() => {
+conn.sync({ force: true }).then(async() => {
+  //I create the diets table before starting the server. 
+  await Diet.bulkCreate([
+    { name: 'vegan' },
+    { name: 'ovo vegetarian' },
+    { name: 'lacto vegetarian' },
+    { name: 'vegetarian' },
+    { name: 'gluten free' },
+    { name: 'diary free' },
+    { name: 'pescetarian' },
+    { name: 'paleolithical' },
+    { name: 'primal' },
+    { name: 'ketogenic' },
+    { name: 'lowfodmap' },
+    { name: 'whole30' },
+  ], { validate: true });
+
   server.listen(3001, () => {
-    console.log('%s listening at 3001'); // eslint-disable-line no-console
+    console.log(`Server listening at ${port}`); // eslint-disable-line no-console
   });
 });
