@@ -1,6 +1,7 @@
-const {cleaner} = require('./cleaner');
+const {recipesCleaner, recipeCleaner} = require('./cleaner');
 
 
 module.exports = {
-  cleaner,
+  recipesCleaner,
+  recipeCleaner
 }
