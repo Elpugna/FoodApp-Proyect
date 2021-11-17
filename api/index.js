@@ -21,8 +21,10 @@ require('dotenv').config();
 const server = require('./src/app.js');
 const { Recipe, Diet, conn } = require('./src/db.js');
 const port = process.env.PORT || 3001;
+
+
 // Syncing all the models at once.
-conn.sync({ force: true }).then(async() => {
+Diet.sync({ force: true }).then(async() => {
   //I create the diets table before starting the server. 
   await Diet.bulkCreate([
     { name: 'vegan' },
@@ -38,7 +40,7 @@ conn.sync({ force: true }).then(async() => {
     { name: 'lowfodmap' },
     { name: 'whole30' },
   ], { validate: true });
-
+  await Recipe.sync({alter:true});
   server.listen(3001, () => {
     console.log(`Server listening at ${port}`); // eslint-disable-line no-console
   });
