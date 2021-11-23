@@ -1,10 +1,23 @@
 import './App.css';
+import {Routes, Route} from 'react-router-dom';
+
+import Landing from './components/Landing';
+import Home from './components/Home';
+import RecipeId from './components/RecipeId';
+import AddRecipe from './components/AddRecipe';
+import NotFound from './components/NotFound';
+
+//TODO: CREAR COMPONENTE PARA LAS ETAPAS DE CARGADO, en RECIPEID un componente que diga cargando con sus estilos y clases propias, también en HOME
 
 function App() {
   return (
-    <div className="App">
-      <h1>Henry Food</h1>
-    </div>
+    <Routes>
+    <Route path='/' element={<Landing/>}/>
+    <Route path='/recipes' element={<Home/>} />
+    <Route path='/recipes/:recipe' element={<RecipeId/>}/>
+    <Route path='/form' element={<AddRecipe/>}/>
+    <Route path="*" element={<NotFound/>} />
+  </Routes>
   );
 }
 
