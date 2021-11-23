@@ -56,11 +56,11 @@ module.exports = (sequelize) => {
       type: DataTypes.ARRAY(DataTypes.STRING(25)),
     },
     // TODO: IMAGE UPLOAD (Bynary)
-    // image:{
-    //   type: DataTypes.STRING,
-    //   validator:{
-    //     isUrl: true:
-    //   }
-    // }
+    image:{
+      type: DataTypes.STRING,
+      validator:{
+        isUrl: true
+      }
+    }
   });
 };
