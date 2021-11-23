@@ -1,9 +1,5 @@
 const { Router } = require('express');
-const {Recipe, Diet} = require('../db');
-const axios = require('axios');
 require('dotenv').config();
-const {API_KEY} = process.env;
-const {Op} = require('sequelize');
 const {getRecipes} = require('./getRecipes');
 const {getRecipeById} = require('./getRecipeById');
 const {getTypes} = require('./getTypes');

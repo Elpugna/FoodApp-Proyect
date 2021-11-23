@@ -12,7 +12,7 @@ const postRecipe = async (req,res)=>{
         ...otherData
       }
     });
-    if(!created) throw new Error("That recipe already exists, try with another name");
+    if(!created) return res.status(409).json({msg:"That recipe already exists, try with another name"});
 
     //|I retrieve all my diets from my database [{D1}, {D2}... {D12}]
     let allDiets = await Diet.findAll({});

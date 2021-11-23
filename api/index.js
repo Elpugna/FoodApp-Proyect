@@ -19,7 +19,7 @@
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 require('dotenv').config();
 const server = require('./src/app.js');
-const { Recipe, Diet, conn } = require('./src/db.js');
+const { Recipe, Diet } = require('./src/db.js');
 const port = process.env.PORT || 3001;
 
 

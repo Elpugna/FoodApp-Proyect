@@ -3,6 +3,7 @@ const axios = require('axios');
 const {recipesCleaner} = require('../controllers');
 const {API_KEY} = process.env;
 const {Recipe, Diet} = require('../db');
+const {Op} = require('sequelize');
 
 const getRecipes = async(req, res)=>{
   try{
@@ -43,10 +44,10 @@ const getRecipes = async(req, res)=>{
     //clean API & DB responses 
     response = recipesCleaner(response);
     dbResponse = dbResponse.map(el=>{
-     let {diets, ...relevantData} = el.dataValues;
-      return {...relevantData, diets: diets.map(el=>el.dataValues.name)}
+     let {diets, title, ...relevantData} = el.dataValues;
+      return {title: el.title, ...relevantData, diets: diets.map(el=>el.dataValues.name)}
     });
-    return res.status(200).send({data:[...dbResponse, ...response]});
+    return res.status(200).json([...dbResponse, ...response]);
   }catch(err){
     console.log(err)
     return res.json({err,"req.params":req.params})
