@@ -84,49 +84,49 @@ A continuación se detallaran los requerimientos mínimos para la aprobación de
 __IMPORTANTE__: No se permitirá utilizar librerías externas para aplicar estilos a la aplicación. Tendrán que utilizar CSS con algunas de las opciones que vimos en dicha clase (CSS puro, CSS Modules o Styled Components)
 
 #### Tecnologías necesarias:
-- [ ] React
-- [ ] Redux
+- [x] React
+- [x] Redux
 - [x] Express
 - [x] Sequelize - Postgres
 
-#### Frontend
+## Frontend
 
 Se debe desarrollar una aplicación de React/Redux que contenga las siguientes pantallas/rutas.
 
 __Pagina inicial__: deben armar una landing page con
 - [ ] Alguna imagen de fondo representativa al proyecto
-- [ ] Botón para ingresar al home (`Ruta principal`)
+- [x] Botón para ingresar al home (`Ruta principal`)
 
 __Ruta principal__: debe contener
-- [ ] Input de búsqueda para encontrar recetas por nombre
+- [x] Input de búsqueda para encontrar recetas por nombre
 - [ ] Área donde se verá el listado de recetas. Deberá mostrar su:
   - Imagen
   - Nombre
   - Tipo de dieta (vegetariano, vegano, apto celíaco, etc)
-- [ ] Botones/Opciones para filtrar por por tipo de dieta
-- [ ] Botones/Opciones para ordenar tanto ascendentemente como descendentemente las recetas por orden alfabético y por puntuación
+- [x] Botones/Opciones para filtrar por por tipo de dieta
+- [x] Botones/Opciones para ordenar tanto ascendentemente como descendentemente las recetas por orden alfabético y por puntuación
 - [ ] Paginado para ir buscando y mostrando las siguientes recetas, 9 recetas por pagina, mostrando las primeros 9 en la primer pagina.
 
 __IMPORTANTE__: Dentro de la Ruta Principal se deben mostrar tanto las recetas traidas desde la API como así también las de la base de datos. Debido a que en la API existen alrededor de 5 mil recetas, por cuestiones de performance pueden tomar la simplificación de obtener y paginar las primeras 100.
 
 __Ruta de detalle de receta__: debe contener
-- [ ] Los campos mostrados en la ruta principal para cada receta (imagen, nombre, tipo de plato y tipo de dieta)
-- [ ] Resumen del plato
-- [ ] Puntuación
-- [ ] Nivel de "comida saludable"
-- [ ] Paso a paso
+- [x] Los campos mostrados en la ruta principal para cada receta (imagen, nombre, tipo de plato y tipo de dieta)
+- [x] Resumen del plato
+- [x] Puntuación
+- [x] Nivel de "comida saludable"
+- [x] Paso a paso
 
 __Ruta de creación de recetas__: debe contener
-- [ ] Un formulario __controlado__ con los siguientes campos
+- [x] Un formulario __controlado__ con los siguientes campos
   - Nombre
   - Resumen del plato
   - Puntuación
   - Nivel de "comida saludable"
   - Paso a paso
-- [ ] Posibilidad de seleccionar/agregar uno o más tipos de dietas
-- [ ] Botón/Opción para crear una nueva receta
+- [x] Posibilidad de seleccionar/agregar uno o más tipos de dietas
+- [x] Botón/Opción para crear una nueva receta
 
-#### Base de datos
+## Base de datos
 
 El modelo de la base de datos deberá tener las siguientes entidades (Aquellas propiedades marcadas con asterisco deben ser obligatorias):
 
@@ -146,7 +146,7 @@ La relación entre ambas entidades debe ser de muchos a muchos ya que una receta
 __IMPORTANTE__: Pensar como modelar los IDs de las recetas en la base de datos. Existen distintas formas correctas de hacerlo pero tener en cuenta que cuando hagamos click en alguna receta, esta puede provenir de la API o de la Base de Datos por lo que cuando muestre su detalle no debería haber ambigüedad en cual se debería mostrar. Por ejemplo si en la API la receta `Strawberry Mango Green Tea Limeade` tiene id = 1 y en nuestra base de datos creamos una nueva receta `Medialunas de Manteca` con id = 1, ver la forma de diferenciarlas cuando querramos acceder al detalle de la misma.
 
 
-#### Backend
+## Backend
 
 Se debe desarrollar un servidor en Node/Express con las siguientes rutas:
 
