@@ -94,18 +94,18 @@ __IMPORTANTE__: No se permitirá utilizar librerías externas para aplicar estil
 Se debe desarrollar una aplicación de React/Redux que contenga las siguientes pantallas/rutas.
 
 __Pagina inicial__: deben armar una landing page con
-- [ ] Alguna imagen de fondo representativa al proyecto
+- [x] Alguna imagen de fondo representativa al proyecto
 - [x] Botón para ingresar al home (`Ruta principal`)
 
 __Ruta principal__: debe contener
 - [x] Input de búsqueda para encontrar recetas por nombre
-- [ ] Área donde se verá el listado de recetas. Deberá mostrar su:
+- [x] Área donde se verá el listado de recetas. Deberá mostrar su:
   - Imagen
   - Nombre
   - Tipo de dieta (vegetariano, vegano, apto celíaco, etc)
 - [x] Botones/Opciones para filtrar por por tipo de dieta
 - [x] Botones/Opciones para ordenar tanto ascendentemente como descendentemente las recetas por orden alfabético y por puntuación
-- [ ] Paginado para ir buscando y mostrando las siguientes recetas, 9 recetas por pagina, mostrando las primeros 9 en la primer pagina.
+- [x] Paginado para ir buscando y mostrando las siguientes recetas, 9 recetas por pagina, mostrando las primeros 9 en la primer pagina.
 
 __IMPORTANTE__: Dentro de la Ruta Principal se deben mostrar tanto las recetas traidas desde la API como así también las de la base de datos. Debido a que en la API existen alrededor de 5 mil recetas, por cuestiones de performance pueden tomar la simplificación de obtener y paginar las primeras 100.
 
