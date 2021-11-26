@@ -47,7 +47,8 @@ const getRecipes = async(req, res)=>{
      let {diets, title, ...relevantData} = el.dataValues;
       return {title: el.title, ...relevantData, diets: diets.map(el=>el.dataValues.name)}
     });
-    return res.status(200).json([...dbResponse, ...response]);
+    return res.status(200).json([ ...response,...dbResponse]);
+    //! return res.status(200).json([...dbResponse])
   }catch(err){
     console.log(err)
     return res.json({err,"req.params":req.params})

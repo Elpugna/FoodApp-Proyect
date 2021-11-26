@@ -10,6 +10,22 @@ const getTypes = async (req,res)=>{
   }
 }
 
+const addType = async (req, res)=>{
+try{
+  let {name} = req.body;
+  let newType = await Diet.create({
+    name
+  })
+  res.status(200).json(newType)
+
+}catch(err){
+  console.log(err);
+  res.status(404).json({msg:err.message});
+}
+
+}
+
 module.exports={
-  getTypes
+  getTypes,
+  addType
 }

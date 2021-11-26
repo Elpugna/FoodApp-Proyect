@@ -2,7 +2,7 @@ const { Router } = require('express');
 require('dotenv').config();
 const {getRecipes} = require('./getRecipes');
 const {getRecipeById} = require('./getRecipeById');
-const {getTypes} = require('./getTypes');
+const {getTypes, addType} = require('./getTypes');
 const {postRecipe} = require('./postRecipe');
 // Importar todos los routers;
 // Ejemplo: const authRouter = require('./auth.js');
@@ -29,7 +29,7 @@ router.route('/recipes/:idReceta').get(getRecipeById)
 // Obtener todos los tipos de dieta posibles
 // En una primera instancia, cuando no exista ninguno, deberán precargar la base de datos con los tipos de datos indicados por spoonacular acá
 router.route('/types').get(getTypes)
-
+router.route("/types").post(addType)
 // [ ] POST /recipe:
 // Recibe los datos recolectados desde el formulario controlado de la ruta de creación de recetas por body
 // Crea una receta en la base de datos
