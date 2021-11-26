@@ -1,15 +1,9 @@
-import './addRecipe.css';
 import {useState, useEffect} from 'react';
 import { addRecipe } from '../state/actions';
 import { useDispatch} from 'react-redux';
-
-/*
-TODO: AGREGAR AL ESTADO "image" y que por defecto tenga una como genérica, de modo que si no se agrega se pone esa y si se agrega la que se agregó
-TODO: FIJARME SI EN VEZ DEL useEffect puedo solucionarlo con setDiets((oldValue)=>newValue) y desp setRecipe(oV=>nV) y desp setErr(oV=>nV) y así evitar el error que me está saliendo
-TODO: AGREGAR EL HOOK DE ESTADO PARA NAVEGAR A HOME POST SUBMITEADA  let navigate = useNavigate(); ... navigate('/recipes')
-TODO: AGREGAR PLACEHOLDERS
-TODO: AGREGAR ESTILOS (A la clase clase-checkbox también)
-*/
+import styled from 'styled-components';
+import {useNavigate} from 'react-router-dom';
+import TopBar from './TopBar';
 
 
 //[ FUNCTION VALIDATE ERROR
@@ -41,7 +35,12 @@ function validateForm(input){
   return err;
 }
 
-
+//°isUrl
+function isURL(str) {
+  var urlRegex = '^(?!mailto:)(?:(?:http|https|ftp)://)(?:\\S+(?::\\S*)?@)?(?:(?:(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[0-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|(?:(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)(?:\\.(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)*(?:\\.(?:[a-z\\u00a1-\\uffff]{2,})))|localhost)(?::\\d{2,5})?(?:(/|\\?|#)[^\\s]*)?$';
+  var url = new RegExp(urlRegex, 'i');
+  return  url.test(str);
+}
 
 
 export default function AddRecipe(props){
@@ -50,6 +49,7 @@ export default function AddRecipe(props){
     summary:"",
     instructions:"",
     ingredients: "",
+    image: "",
     score: 0,
     healthScore: 0,
     diets: [],
@@ -58,6 +58,7 @@ export default function AddRecipe(props){
   const [diets, setDiets] = useState(new Array(12).fill(false));
   const [submitted, setSubmitted] = useState(false)
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(()=>{
     setRecipe({
@@ -69,7 +70,6 @@ export default function AddRecipe(props){
         return false;
       }).filter(el=>(typeof el) === 'number'),
     });
-    //| no tenía a recipe agregado acé me lo pedia un error
   }, [diets]);
   
   useEffect(()=>{
@@ -96,8 +96,6 @@ export default function AddRecipe(props){
         return el;
       })
     );
-
-    
   };
 
 
@@ -108,11 +106,16 @@ export default function AddRecipe(props){
     //Si no tengo errores, entonces despacho la acción.
     if(!Object.keys(errors).length){
       let ingredients = recipe.ingredients.split(", ");
-      dispatch(addRecipe({...recipe,ingredients}));
+      let defaultUrl = "https://thumbs.dreamstime.com/b/cartoon-chef-kebab-cartoon-chef-character-holding-kebab-110669261.jpg";
+      if(isURL(recipe.image)){
+        defaultUrl = recipe.image;
+      }
+      dispatch(addRecipe({...recipe,image: defaultUrl, ingredients}));
       //! console.log(`Recipe ${recipe.title} creation request sent`)  //! ####
       //! console.log("RECIPE: ", recipe);
       //! console.log("ERROR: ", errors)
       setSubmitted(false);
+      navigate("/recipes");
     }else{
       //si no, cambio submitted a true y muestro los campos con errores
       setSubmitted(true);
@@ -120,110 +123,285 @@ export default function AddRecipe(props){
   }
 
   return (
-    <div>
-      <form onSubmit={(e)=>handleSubmit(e)}>
-        <label>Recipe Title</label>
-        <input 
+    <>
+      <TopBar link="/recipes" btnTitle="Return" />
+      <Form onSubmit={(e)=>handleSubmit(e)}>
+        <Label>Recipe Title*</Label>
+        <Input 
           type="text" 
           className={(submitted && errors.title)? 'danger': null} 
           onChange={(e)=>handleChange(e)} 
           name="title"
+          placeholder="Ex. Eggplant Lasagna"
           required
           />
-        {(submitted && errors.title)? <span className="danger-text">{errors.title}</span> : null }
+        {(submitted && errors.title)? <Span className="danger-text">{errors.title}</Span> : null }
 
-        <label>Summary</label> 
-        <textarea 
+        <Label>Summary*</Label> 
+        <TextArea 
+          rows="3"
+          cols="80"
           className={(submitted && errors.summary)? 'danger': null} 
           type="text" 
           onChange={(e)=>handleChange(e)} 
-          name="summary" />
-        {(submitted && errors.summary)? <span className="danger-text">{errors.summary}</span> : null }
+          name="summary" 
+          placeholder="Tell us about this recipe."/>
+        {(submitted && errors.summary)? <Span className="danger-text">{errors.summary}</Span> : null }
 
-        <label>Instructions</label>
-        <textarea 
+        <Label>Instructions*</Label>
+        <TextArea 
+          rows="6"
+          cols="80"
           className={(submitted && errors.instructions)? 'danger': null} 
           type="text" 
           onChange={(e)=>handleChange(e)} 
-          name="instructions"/>
-        {(submitted && errors.instructions)? <span className="danger-text">{errors.instructions}</span> : null }
+          name="instructions"
+          placeholder="Tell us how to prepare this dish."/>
+        {(submitted && errors.instructions)? <Span className="danger-text">{errors.instructions}</Span> : null }
+ 
 
-        <label>Ingredients</label>
-        <textarea 
+
+        <Label>Image</Label> 
+        <Input 
+          type="text" 
+          onChange={(e)=>handleChange(e)} 
+          name="image" 
+          placeholder="https://www.examplepicture.com"/>
+
+        <Label>Ingredients*</Label>
+        <Input 
           className={(submitted && errors.ingredients)? 'danger': null} 
           type="text" onChange={(e)=>handleChange(e)} 
           name="ingredients" 
-          placeholder="Set ingredients separed by comma(',')"/>
-        {(submitted && errors.ingredients)? <span className="danger-text">{errors.ingredients}</span> : null }
+          placeholder="Set ingredients separed by comma (',')."/>
+        {(submitted && errors.ingredients)? <Span className="danger-text">{errors.ingredients}</Span> : null }
 
-        <label>Score</label>
-        <input 
+        <Label>Score*</Label>
+        <Input 
           className={(submitted && errors.score)? 'danger':null} 
           type="number" 
           onChange={(e)=>handleChange(e)} 
-          name="score" />
-        {(submitted && errors.score)? <span className="danger-text">{errors.score}</span> : null }
+          name="score" 
+          placeholder="0 - 100"/>
+        {(submitted && errors.score)? <Span className="danger-text">{errors.score}</Span> : null }
 
-        <label>Health Score</label>
-        <input  
+        <Label>Health Score*</Label>
+        <Input  
           className={(submitted && errors.healthScore)?'danger':null} 
           type="number" 
           onChange={(e)=>handleChange(e)} 
-          name="healthScore" />
-        {(submitted && errors.healthScore)? <span className="danger-text">{errors.healthScore}</span> : null }
+          name="healthScore"
+          placeholder="0 - 100" />
+        {(submitted && errors.healthScore)? <Span className="danger-text">{errors.healthScore}</Span> : null }
         
         
-        {/* //[Esto tiene que tener una clase específica para agruparlos sin que ocupen 2 hojas 
-        */}
 
-        <div className={(submitted && errors.diets)?'danger':null}>
+        <div >
 
-        <fieldset >
-          <legend >Diet Type</legend>
+        <FieldSet >
+          <Legend >Diet Type/s*</Legend>
 
         {/* * 1 */}
-        <label>Vegan</label>
-        <input type="checkbox" name="vegan" value="0" onChange={(e)=>handleCheckBoxChange(e)}/>
+        <Label>Vegan</Label>
+        <Checkbox type="checkbox" name="vegan" value="0" onChange={(e)=>handleCheckBoxChange(e)}/>
         {/* * 2 */}
-        <label>Ovo Vegetarian</label>
-        <input type="checkbox" name="ovoVegetarian" value="1" onChange={(e)=>handleCheckBoxChange(e)}/>
+        <Label>Ovo Vegetarian</Label>
+        <Checkbox type="checkbox" name="ovoVegetarian" value="1" onChange={(e)=>handleCheckBoxChange(e)}/>
          {/* 3 */}
-        <label>Lacto Vegetarian</label>
-        <input type="checkbox" name="lactoVegetarian" value="2" onChange={(e)=>handleCheckBoxChange(e)}/>
+        <Label>Lacto Vegetarian</Label>
+        <Checkbox type="checkbox" name="lactoVegetarian" value="2" onChange={(e)=>handleCheckBoxChange(e)}/>
         {/* 4 */}
-        <label>Vegetarian</label>
-        <input type="checkbox" name="vegetarian" value="3" onChange={(e)=>handleCheckBoxChange(e)}/>
+        <Label>Vegetarian</Label>
+        <Checkbox type="checkbox" name="vegetarian" value="3" onChange={(e)=>handleCheckBoxChange(e)}/>
         {/* 5 */}
-        <label>Gluten Free</label>
-        <input type="checkbox" name="glutenFree" value="4" onChange={(e)=>handleCheckBoxChange(e)}/>
+        <Label>Gluten Free</Label>
+        <Checkbox type="checkbox" name="glutenFree" value="4" onChange={(e)=>handleCheckBoxChange(e)}/>
         {/* 6 */}
-        <label>Diary Free</label> 
-        <input type="checkbox" name="diaryFree" value="5" onChange={(e)=>handleCheckBoxChange(e)}/>
+        <Label>Diary Free</Label> 
+        <Checkbox type="checkbox" name="diaryFree" value="5" onChange={(e)=>handleCheckBoxChange(e)}/>
         {/* 7 */}
-        <label>Pescetarian</label>
-        <input type="checkbox" name="pescetarian" value="6" onChange={(e)=>handleCheckBoxChange(e)}/>
+        <Label>Pescetarian</Label>
+        <Checkbox type="checkbox" name="pescetarian" value="6" onChange={(e)=>handleCheckBoxChange(e)}/>
         {/* 8 */}
-        <label>Paleolithical</label>
-        <input type="checkbox" name="paleolithical" value="7" onChange={(e)=>handleCheckBoxChange(e)}/>
+        <Label>Paleolithical</Label>
+        <Checkbox type="checkbox" name="paleolithical" value="7" onChange={(e)=>handleCheckBoxChange(e)}/>
         {/* 9 */}
-        <label>Primal</label>
-        <input type="checkbox" name="primal" value="8" onChange={(e)=>handleCheckBoxChange(e)}/>
+        <Label>Primal</Label>
+        <Checkbox type="checkbox" name="primal" value="8" onChange={(e)=>handleCheckBoxChange(e)}/>
          {/* 10 */}
-        <label>Ketogenic</label>
-        <input type="checkbox" name="ketogenic" value="9" onChange={(e)=>handleCheckBoxChange(e)}/>
+        <Label>Ketogenic</Label>
+        <Checkbox type="checkbox" name="ketogenic" value="9" onChange={(e)=>handleCheckBoxChange(e)}/>
          {/* 11 */}
-        <label>lowFODMAP</label>
-        <input type="checkbox" name="lowFodmap" value="10" onChange={(e)=>handleCheckBoxChange(e)}/>
+        <Label>lowFODMAP</Label>
+        <Checkbox type="checkbox" name="lowFodmap" value="10" onChange={(e)=>handleCheckBoxChange(e)}/>
          {/* 12 */}
-        <label>Whole 30</label>
-        <input type="checkbox" name="whole30" value="11" onChange={(e)=>handleCheckBoxChange(e)}/>
+        <Label>Whole 30</Label>
+        <Checkbox type="checkbox" name="whole30" value="11" onChange={(e)=>handleCheckBoxChange(e)}/>
 
-        </fieldset>
+        </FieldSet>
         </div>
-        <button type="submit" >Add</button>
-      </form>
-    </div>
+        {(submitted && errors.diets)? <Span>{errors.diets}</Span> : null }
+        <Button type="submit" >Add</Button>
+      </Form>
+    </>
   );
 }
 
+
+const Form = styled.form`
+  background: #28272808;
+  backdrop-filter: blur(3px);
+  border: 2px solid #6e1e2a;
+
+  min-width: 200px;
+  max-width: 450px;
+  display:flex;
+  flex-direction: column;
+
+
+  display: flex;
+  border-radius:3px;
+  border-bottom-right-radius: 15px;
+  border-bottom-left-radius: 15px;
+  width: 50%;
+  height: auto;
+  margin: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
+  font-family: "Open Sans", sans-serif;
+  padding: 10px;
+  margin-bottitioom: 10px;
+
+  color: black;
+
+
+    & ::selection {
+      color:#f2f4f5;
+      background-color: #5e081be0;
+    } 
+`
+
+const TextArea =  styled.textarea`
+  background: #f2f4f5;
+  border-radius:9px;
+  font-family:  'Lato', serif;
+  border: 2px solid #5e081be0;
+  color: #5e081be0;
+  font-weight: 600;
+  padding-left: 5px;
+  font-size: 1em;
+
+    &::placeholder {
+      color: black;
+      font-weight: 400;
+      font-family: 'Lato', serif;
+    }
+
+`
+
+const Input = styled.input`
+  background: #f2f4f5;
+  border-radius:9px;
+  font-family:  'Lato', serif;
+  border: 2px solid #5e081be0;
+  color: #5e081be0;
+  font-weight: 600;
+  padding-left:5px;
+  height:30px;
+  font-size: 1em;
+
+    &::placeholder {
+      color: black;
+      font-weight: 400;
+      font-family: 'Lato', serif;
+    }
+
+`
+const Label = styled.label`
+  font-family:  'Lato', serif
+  background: #f2f4f5;
+  heigth:fit-content;
+  width:fit-content;
+  margin: 0px 0px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 25px;
+  padding: 0px 4px;
+  margin-top: 3px;
+  color: #0c0a0d;
+`
+const Legend = styled.legend`
+  font-family:  'Lato', serif
+  background: #f2f4f5;
+  heigth:fit-content;
+  width:fit-content;
+  margin: 0px 0px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 25px;
+  padding: 0px 4px;
+  margin-top: 3px;
+  color: #0c0a0d;
+`
+
+const FieldSet = styled.fieldset`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center;
+  align-items: center;
+  justify-content: flex-start;
+
+`
+const Checkbox = styled.input`
+
+& :checked {
+  background-color: #5e081be0;
+  border: 1px solid #adb8c0;
+  color: #red;
+}
+
+`
+
+const Span = styled.span`
+  font-family: 'Lato', serif;
+  color: #6e1e2a;
+  font-weight: 500;
+  background-color: #ddbc95;
+  text-align: center;
+  border-radius: 3px;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border: 2px solid #6e1e2a;
+  font-weight: bold;
+`
+
+const Button = styled.button`
+  height: 40px;
+  background-color: #d4ac7d;
+  width: 445px;
+  border-width: 1px;
+  cursor: pointer;
+  font-size: 15px;
+  font-family: 'Yuji Mai', serif;
+  border: 2px solid #5e081be0;
+  margin-top: 9px;
+  font-weight: 600;
+  color: #5e081be0;
+  border-radius:3px;
+  border-bottom-right-radius: 15px;
+  border-bottom-left-radius: 15px;
+
+  &:hover{
+    background-color: transparent;
+    border:2px solid #5e081be0;
+  }
+`
+// 
+//margin-top: 5px;
 

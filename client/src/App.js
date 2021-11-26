@@ -7,7 +7,7 @@ import RecipeId from './components/RecipeId';
 import AddRecipe from './components/AddRecipe';
 import NotFound from './components/NotFound';
 
-//TODO: CREAR COMPONENTE PARA LAS ETAPAS DE CARGADO, en RECIPEID un componente que diga cargando con sus estilos y clases propias, también en HOME
+//TODO: CREAR COMPONENTE PARA LAS ETAPAS DE CARGADO, en RECIPEID un componente que diga cargando con sus estilos propios, también en HOME y RECIPEID
 
 function App() {
   return (

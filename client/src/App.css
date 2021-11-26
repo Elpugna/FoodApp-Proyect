@@ -1,38 +1,45 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
+body{
+  background-image: url(./img/image_04.jpg);
+  width:100vw;
+  height: 100vh;
+  position:sticky;
+  background-size:cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  display:flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  padding:0px;
+  margin:0px;
+  overflow-x: hidden;
 }
 
-.App-link {
-  color: #61dafb;
+.Recipe-summary a{
+  color: #0e4677e3;
+  text-decoration: none;
+  font-weight: 600;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+::selection {
+  color: #5e081be0;
+  background-color: #f2f4f5;
+
+} 
+/*
+ .t{
+  color: #ddbc95;  Marroncito claro 
+  color:#d4ac7d;   marroncito oscuro: 
+  color: #5e081be0; Violeta del "Ingresar" 
+  color: #3f3c32; Arandano Oscuro - "Recetilas" 
+  color: #514d40;  Arándano claro Sombra Paginado "Recetillas" 
+  color: #f2f4f5; Blanquito del fondo: 
+  color: #6e1e2a;  Color bordó bordes /recipe 
+
+  |LETRAS
+  'Lato' Texto común, busquedas y opciones
+  
+ 
+
 }
+
+*/
