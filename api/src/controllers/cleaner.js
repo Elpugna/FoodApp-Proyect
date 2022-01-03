@@ -9,6 +9,12 @@ function recipesCleaner(dirtyResponse){
       summary, 
       diets, 
     } = elem;
+    diets= diets.map(el=>{
+      if(el==="pescatarian"){
+        return "pescetarian";
+      }
+      return el;
+    });
     return {   
       title, 
       id,  
@@ -35,6 +41,12 @@ function recipeCleaner(dirtyResponse){
       image,
       extendedIngredients,
     } = dirtyResponse.data;
+    diets= diets.map(el=>{
+      if(el==="pescatarian"){
+        return "pescetarian";
+      }
+      return el;
+    });
     return {   
       title, 
       id, 
