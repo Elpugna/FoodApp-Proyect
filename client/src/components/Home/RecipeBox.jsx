@@ -43,6 +43,7 @@ const RecipeContainer = styled.div`
 const Img = styled.img`
 width: -webkit-fill-available;
 height: fit-content;
+cursor:pointer;
 `
 
 const Title = styled.h3`

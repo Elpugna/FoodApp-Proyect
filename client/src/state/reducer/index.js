@@ -10,6 +10,7 @@ let initialState = {
 export default function rootReducer(state= initialState, action){
   switch(action.type){
     case ADD_RECIPE: 
+      console.log("ENTRO AL REDUCER");
       return{
         ...state,
         allRecipes: [...state.allRecipes, action.payload],

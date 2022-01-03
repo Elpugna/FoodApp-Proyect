@@ -17,12 +17,12 @@ export const REMOVE_RECIPE_ID ="REMOVE_RECIPE_ID" //Action dispatched by RecipeI
 export function addRecipe(payload){
   return async function(dispatch){
     try{
-      let data = await axios.post("http://localhost:3001/recipe", payload);
-
-      return{
+      let recipe = await axios.post("http://localhost:3001/recipe", payload);
+      //! console.log("ADDRECIPE: ", recipe.data);
+      dispatch({
         type: ADD_RECIPE,
-        payload: data.data
-      }
+        payload: recipe.data
+      });
 
     }catch(err){
       //error 409 comes from the backend because of an already created recipe
@@ -53,7 +53,7 @@ export function requestTypes(){
 //[PEDIR RECETAS
 export function requestRecipes(payload){
   //payload = query param "name="
-  console.log("ACTION REQUEST_RECIPES: ")
+  //! console.log("ACTION REQUEST_RECIPES: ")
   return async function(dispatch){
     try{
       let name= payload?`?name=${payload}`: "";

@@ -223,8 +223,8 @@ export default function AddRecipe(props){
         <Label>Pescetarian</Label>
         <Checkbox type="checkbox" name="pescetarian" value="6" onChange={(e)=>handleCheckBoxChange(e)}/>
         {/* 8 */}
-        <Label>Paleolithical</Label>
-        <Checkbox type="checkbox" name="paleolithical" value="7" onChange={(e)=>handleCheckBoxChange(e)}/>
+        <Label>Paleolithic</Label>
+        <Checkbox type="checkbox" name="paleolithic" value="7" onChange={(e)=>handleCheckBoxChange(e)}/>
         {/* 9 */}
         <Label>Primal</Label>
         <Checkbox type="checkbox" name="primal" value="8" onChange={(e)=>handleCheckBoxChange(e)}/>
